@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaCalendar, FaUser } from 'react-icons/fa';
 
 import { PrismicDocument, Query } from '@prismicio/types';
