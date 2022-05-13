@@ -29,24 +29,8 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-function formatData(posts: Post[]): Post[] {
-  const formattedPost = posts.map(post =>
-    post.first_publication_date
-      ? {
-          ...post,
-          first_publication_date: format(
-            new Date(post.first_publication_date),
-            'dd MMM yyyy',
-            { locale: ptBR }
-          ),
-        }
-      : post
-  );
-  return formattedPost;
-}
-
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const [posts, setPosts] = useState(formatData(postsPagination.results));
+  const [posts, setPosts] = useState(postsPagination.results);
   const [nextPage, setNextPage] = useState(postsPagination.next_page);
 
   async function loadMorePosts(): Promise<void> {
@@ -114,12 +98,16 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient({});
 
-  const postsResponse = await prismic.getByType('post', { pageSize: 1 });
+  const postsResponse = await prismic.getByType('post', { pageSize: 5 });
 
   const posts: Post[] = postsResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: post.first_publication_date,
+      first_publication_date: format(
+        new Date(post.first_publication_date),
+        'dd MMM yyyy',
+        { locale: ptBR }
+      ),
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
