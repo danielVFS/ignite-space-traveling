@@ -1,10 +1,16 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
+import { RichText } from 'prismic-dom';
+import { FaCalendar, FaUser } from 'react-icons/fa';
+
+import Header from '../../components/Header';
 
 import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
 
 interface Post {
+  slug: string;
   first_publication_date: string | null;
   data: {
     title: string;
@@ -26,7 +32,46 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
-  return <h1>post</h1>;
+  return (
+    <>
+      <Head>
+        <title>{post.slug} | SpaceTraveling</title>
+      </Head>
+      <Header />
+      <img
+        src={post.data.banner.url}
+        alt={post.slug}
+        className={styles.banner}
+      />
+      <div className={styles.postContainer}>
+        <h2>{post.data.title}</h2>
+        <div>
+          <span>
+            <FaCalendar />
+            {post.first_publication_date}
+          </span>
+          <span>
+            <FaUser />
+            {post.data.author}
+          </span>
+        </div>
+        <main>
+          {post.data.content.map(content => {
+            return (
+              <article key={content.heading.slice(4, 10)}>
+                <h3>{content.heading}</h3>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: RichText.asHtml(content.body),
+                  }}
+                />
+              </article>
+            );
+          })}
+        </main>
+      </div>
+    </>
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -38,7 +83,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: [
       { params: { slug: 'typescript-por-tras-do-superset-de-javascript' } },
     ],
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 
@@ -48,14 +93,22 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const prismic = getPrismicClient({});
 
   const response = await prismic.getByUID('post', String(slug));
-  console.log(response);
 
   const post: Post = {
+    slug: response.uid,
     first_publication_date: response.first_publication_date,
     data: {
       title: response.data.title,
       author: response.data.author,
-      banner: response,
+      banner: {
+        url: response.data.banner.url,
+      },
+      content: response.data.content.map(content => {
+        return {
+          heading: content.heading,
+          body: [...content.body],
+        };
+      }),
     },
   };
 
