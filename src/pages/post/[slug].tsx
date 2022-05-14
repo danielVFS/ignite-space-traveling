@@ -1,9 +1,11 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { RichText } from 'prismic-dom';
-import { FaCalendar, FaUser } from 'react-icons/fa';
+import { FaCalendar, FaUser, FaRegClock } from 'react-icons/fa';
 
 import Header from '../../components/Header';
+import { Loading } from '../../components/Loading';
 
 import { getPrismicClient } from '../../services/prismic';
 
@@ -32,6 +34,12 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+  const router = useRouter();
+
+  if (true) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head>
@@ -53,6 +61,9 @@ export default function Post({ post }: PostProps): JSX.Element {
           <span>
             <FaUser />
             {post.data.author}
+          </span>
+          <span>
+            <FaRegClock />4 min
           </span>
         </div>
         <main>
@@ -79,12 +90,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const postsResponse = await prismic.getByType('post', { pageSize: 5 });
 
-  return {
-    paths: [
-      { params: { slug: 'typescript-por-tras-do-superset-de-javascript' } },
-    ],
-    fallback: true,
-  };
+  const paths = postsResponse.results.map(post => ({
+    params: { slug: post.uid },
+  }));
+
+  return { paths, fallback: true };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
