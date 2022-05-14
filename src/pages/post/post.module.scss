@@ -54,6 +54,12 @@
         line-height: 2rem;
       }
 
+      @media (max-width: 720px) {
+        h3 {
+          text-align: center;
+        }
+      }
+
       div {
         display: flex;
         flex-direction: column;
