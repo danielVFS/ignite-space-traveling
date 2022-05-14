@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { SignInButton } from '../SignInButton';
+
 import styles from './header.module.scss';
 
 export default function Header(): JSX.Element {
@@ -11,6 +13,8 @@ export default function Header(): JSX.Element {
           <Image src="/images/Logo.svg" alt="logo" width={240} height={30} />
         </a>
       </Link>
+
+      <SignInButton />
     </header>
   );
 }

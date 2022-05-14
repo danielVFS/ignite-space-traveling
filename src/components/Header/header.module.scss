@@ -2,10 +2,11 @@
   max-width: 720px;
   height: 6.5rem;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 2rem rem;
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   a {
     transition: filter 0.2s;
@@ -13,5 +14,11 @@
     &:hover {
       filter: brightness(0.8);
     }
+  }
+}
+
+@media (max-width: 720px) {
+  .headerContainer {
+    padding: 2rem 1rem;
   }
 }
