@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
+import Head from 'next/head';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useState } from 'react';
@@ -62,40 +63,45 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   }
 
   return (
-    <div className={styles.postContainer}>
+    <>
+      <Head>
+        <title>Posts | SpaceTraveling</title>
+      </Head>
       <Header />
-      {posts.map(post => {
-        return (
-          <div className={styles.post} key={post.uid}>
-            <Link href={`/post/${post.uid}`}>
-              <a>
-                <h2>{post.data.title}</h2>
-              </a>
-            </Link>
-            <p>{post.data.subtitle}</p>
-            <div>
-              <span>
-                <FaCalendar />
-                {post.first_publication_date}
-              </span>
-              <span>
-                <FaUser />
-                {post.data.author}
-              </span>
+      <div className={styles.postContainer}>
+        {posts.map(post => {
+          return (
+            <div className={styles.post} key={post.uid}>
+              <Link href={`/post/${post.uid}`}>
+                <a>
+                  <h2>{post.data.title}</h2>
+                </a>
+              </Link>
+              <p>{post.data.subtitle}</p>
+              <div>
+                <span>
+                  <FaCalendar />
+                  {post.first_publication_date}
+                </span>
+                <span>
+                  <FaUser />
+                  {post.data.author}
+                </span>
+              </div>
             </div>
-          </div>
-        );
-      })}
-      {nextPage && (
-        <button
-          type="button"
-          className={styles.showMorePostsButton}
-          onClick={loadMorePosts}
-        >
-          Carregar mais posts
-        </button>
-      )}
-    </div>
+          );
+        })}
+        {nextPage && (
+          <button
+            type="button"
+            className={styles.showMorePostsButton}
+            onClick={loadMorePosts}
+          >
+            Carregar mais posts
+          </button>
+        )}
+      </div>
+    </>
   );
 }
 

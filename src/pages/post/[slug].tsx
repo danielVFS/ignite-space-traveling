@@ -25,20 +25,43 @@ interface PostProps {
   post: Post;
 }
 
-// export default function Post() {
-//   // TODO
-// }
+export default function Post({ post }: PostProps): JSX.Element {
+  return <h1>post</h1>;
+}
 
-// export const getStaticPaths = async () => {
-//   const prismic = getPrismicClient({});
-//   const posts = await prismic.getByType(TODO);
+export const getStaticPaths: GetStaticPaths = async () => {
+  const prismic = getPrismicClient({});
 
-//   // TODO
-// };
+  const postsResponse = await prismic.getByType('post', { pageSize: 5 });
 
-// export const getStaticProps = async ({params }) => {
-//   const prismic = getPrismicClient({});
-//   const response = await prismic.getByUID(TODO);
+  return {
+    paths: [
+      { params: { slug: 'typescript-por-tras-do-superset-de-javascript' } },
+    ],
+    fallback: 'blocking',
+  };
+};
 
-//   // TODO
-// };
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params;
+
+  const prismic = getPrismicClient({});
+
+  const response = await prismic.getByUID('post', String(slug));
+  console.log(response);
+
+  const post: Post = {
+    first_publication_date: response.first_publication_date,
+    data: {
+      title: response.data.title,
+      author: response.data.author,
+      banner: response,
+    },
+  };
+
+  return {
+    props: {
+      post,
+    },
+  };
+};
