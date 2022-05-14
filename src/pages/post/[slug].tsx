@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import Header from '../../components/Header';
+import { Loading } from '../../components/Loading';
 
 import { getPrismicClient } from '../../services/prismic';
 
@@ -49,7 +50,7 @@ export default function Post({ post }: PostProps): JSX.Element {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
 
   const words = formattedPost.data.content
