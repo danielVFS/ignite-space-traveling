@@ -14,11 +14,12 @@ import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
 
-export interface Post {
-  slug: string;
+export interface PostWithContent {
+  uid?: string;
   first_publication_date: string | null;
   data: {
     title: string;
+    subtitle: string;
     banner: {
       url: string;
     };
@@ -33,11 +34,11 @@ export interface Post {
 }
 
 interface PostProps {
-  post: Post;
+  post: PostWithContent;
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
-  const [formattedPost, setFormattedPost] = useState({
+  const [formattedPost] = useState({
     ...post,
     first_publication_date: format(
       new Date(post.first_publication_date),
@@ -49,23 +50,35 @@ export default function Post({ post }: PostProps): JSX.Element {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <Loading />;
+    // return <Loading />;
+    return <p>Carregando...</p>;
   }
+
+  const words = formattedPost.data.content
+    .map(content => RichText.asText(content.body))
+    .reduce(
+      (previousValue, currentValue) =>
+        previousValue + currentValue.trim().split(/\s+/).length,
+      0
+    );
+
+  const wordsPerMinute = 200;
+  const readTime = Math.ceil(words / wordsPerMinute);
 
   return (
     <>
       <Head>
-        <title>{formattedPost.slug} | SpaceTraveling</title>
+        <title>{post.data.title} | SpaceTraveling</title>
       </Head>
       <Header />
       <img
         src={formattedPost.data.banner.url}
-        alt={formattedPost.slug}
+        alt={formattedPost.data.title}
         className={styles.banner}
       />
       <div className={styles.postContainer}>
         <h2>{formattedPost.data.title}</h2>
-        <div>
+        <div className={styles.postInfo}>
           <span>
             <FaCalendar />
             {formattedPost.first_publication_date}
@@ -75,7 +88,8 @@ export default function Post({ post }: PostProps): JSX.Element {
             {formattedPost.data.author}
           </span>
           <span>
-            <FaRegClock />4 min
+            <FaRegClock />
+            {`${readTime} min`}
           </span>
         </div>
         <main>
@@ -116,11 +130,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const response = await prismic.getByUID('post', String(slug));
 
-  const post: Post = {
-    slug: response.uid,
+  const post = {
+    uid: response.uid,
     first_publication_date: response.first_publication_date,
     data: {
       title: response.data.title,
+      subtitle: response.data.subtitle,
       author: response.data.author,
       banner: {
         url: response.data.banner.url,
