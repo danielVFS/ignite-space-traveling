@@ -12,7 +12,7 @@ import { getPrismicClient } from '../services/prismic';
 import styles from './home.module.scss';
 import Header from '../components/Header';
 
-import { formatData } from '../utils/formatData';
+import { formatPosts } from '../utils/formatPosts';
 
 export interface Post {
   uid?: string;
@@ -34,7 +34,7 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const [posts, setPosts] = useState(formatData(postsPagination.results));
+  const [posts, setPosts] = useState(formatPosts(postsPagination.results));
   const [nextPage, setNextPage] = useState(postsPagination.next_page);
 
   async function loadMorePosts(): Promise<void> {

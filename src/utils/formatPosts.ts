@@ -3,7 +3,7 @@ import { ptBR } from 'date-fns/locale';
 
 import { Post } from '../pages';
 
-export function formatData(posts: Post[]): Post[] {
+export function formatPosts(posts: Post[]): Post[] {
   const formattedPost = posts.map(post =>
     post.first_publication_date
       ? {

@@ -2,7 +2,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { RichText } from 'prismic-dom';
+import { useState } from 'react';
 import { FaCalendar, FaUser, FaRegClock } from 'react-icons/fa';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import Header from '../../components/Header';
 import { Loading } from '../../components/Loading';
@@ -11,7 +14,7 @@ import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
 
-interface Post {
+export interface Post {
   slug: string;
   first_publication_date: string | null;
   data: {
@@ -34,6 +37,15 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+  const [formattedPost, setFormattedPost] = useState({
+    ...post,
+    first_publication_date: format(
+      new Date(post.first_publication_date),
+      'dd MMM yyyy',
+      { locale: ptBR }
+    ),
+  });
+
   const router = useRouter();
 
   if (router.isFallback) {
@@ -43,31 +55,31 @@ export default function Post({ post }: PostProps): JSX.Element {
   return (
     <>
       <Head>
-        <title>{post.slug} | SpaceTraveling</title>
+        <title>{formattedPost.slug} | SpaceTraveling</title>
       </Head>
       <Header />
       <img
-        src={post.data.banner.url}
-        alt={post.slug}
+        src={formattedPost.data.banner.url}
+        alt={formattedPost.slug}
         className={styles.banner}
       />
       <div className={styles.postContainer}>
-        <h2>{post.data.title}</h2>
+        <h2>{formattedPost.data.title}</h2>
         <div>
           <span>
             <FaCalendar />
-            {post.first_publication_date}
+            {formattedPost.first_publication_date}
           </span>
           <span>
             <FaUser />
-            {post.data.author}
+            {formattedPost.data.author}
           </span>
           <span>
             <FaRegClock />4 min
           </span>
         </div>
         <main>
-          {post.data.content.map(content => {
+          {formattedPost.data.content.map(content => {
             return (
               <article key={content.heading.slice(4, 10)}>
                 <h3>{content.heading}</h3>
