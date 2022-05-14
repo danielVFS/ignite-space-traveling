@@ -4,13 +4,16 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useState } from 'react';
 import { FaCalendar, FaUser } from 'react-icons/fa';
-
 import { PrismicDocument, Query } from '@prismicio/types';
+
 import { getPrismicClient } from '../services/prismic';
 
 import styles from './home.module.scss';
+import Header from '../components/Header';
 
-interface Post {
+import { formatData } from '../utils/formatData';
+
+export interface Post {
   uid?: string;
   first_publication_date: string | null;
   data: {
@@ -30,7 +33,7 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const [posts, setPosts] = useState(postsPagination.results);
+  const [posts, setPosts] = useState(formatData(postsPagination.results));
   const [nextPage, setNextPage] = useState(postsPagination.next_page);
 
   async function loadMorePosts(): Promise<void> {
@@ -60,6 +63,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
 
   return (
     <div className={styles.postContainer}>
+      <Header />
       {posts.map(post => {
         return (
           <div className={styles.post} key={post.uid}>
@@ -103,11 +107,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts: Post[] = postsResponse.results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: format(
-        new Date(post.first_publication_date),
-        'dd MMM yyyy',
-        { locale: ptBR }
-      ),
+      first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
         subtitle: post.data.subtitle,
