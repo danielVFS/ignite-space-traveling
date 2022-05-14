@@ -36,7 +36,7 @@ interface PostProps {
 export default function Post({ post }: PostProps): JSX.Element {
   const router = useRouter();
 
-  if (true) {
+  if (router.isFallback) {
     return <Loading />;
   }
 
