@@ -4,7 +4,7 @@ import { FiX } from 'react-icons/fi';
 import styles from './signInButton.module.scss';
 
 export function SignInButton(): JSX.Element {
-  const session = true;
+  const session = false;
 
   return session ? (
     <button type="button" className={`${styles.signInButton} ${styles.logged}`}>
@@ -17,7 +17,7 @@ export function SignInButton(): JSX.Element {
       type="button"
       className={`${styles.signInButton} ${styles.notLogged}`}
     >
-      <FaFacebook color="#dd9e20" /> Sign in with Github
+      <FaFacebook color="#dd9e20" /> Login com Facebook
     </button>
   );
 }

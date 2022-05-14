@@ -10,7 +10,7 @@ export default function Header(): JSX.Element {
     <header className={styles.headerContainer}>
       <Link href="/">
         <a>
-          <Image src="/images/Logo.svg" alt="logo" width={240} height={30} />
+          <Image src="/images/Logo.svg" alt="logo" width={230} height={30} />
         </a>
       </Link>
 
