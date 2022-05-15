@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: space-between;
 
-  padding: 0rem 1rem;
   padding-bottom: 4rem;
 
   div {
@@ -30,4 +29,38 @@
       }
     }
   }
+}
+
+.commentsWrapper {
+  background: var(--background);
+  padding: 1rem;
+
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+
+  max-width: 25rem;
+  height: 100vh;
+  top: 0;
+  right: 0;
+
+  transition: all 300ms ease-in-out;
+  overflow-y: auto;
+
+  border-left: 1px solid var(--gray-800);
+
+  @media (max-width: 720px) {
+    max-width: 100%;
+  }
+}
+
+.showComments {
+  right: -25rem;
+  overflow-y: hidden;
+}
+
+.hiddenComments {
+  right: 0rem;
+  overflow-y: auto;
 }
