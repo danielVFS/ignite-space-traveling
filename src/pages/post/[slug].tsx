@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { FaCalendar, FaUser, FaRegClock } from 'react-icons/fa';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { FaPlayCircle } from 'react-icons/fa';
 
 import Header from '../../components/Header';
 import { Loading } from '../../components/Loading';
@@ -77,6 +78,11 @@ export default function Post({ post }: PostProps): JSX.Element {
         className={styles.banner}
       />
       <div className={styles.postContainer}>
+        <div className={styles.player}>
+          <button type="button" title="Escutar post">
+            <FaPlayCircle />
+          </button>
+        </div>
         <h2>{formattedPost.data.title}</h2>
         <div className={styles.postInfo}>
           <span>

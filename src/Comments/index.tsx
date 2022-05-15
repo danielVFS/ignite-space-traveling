@@ -24,10 +24,12 @@ export function Comments({ closeComments }: CommentsProps): JSX.Element {
           </button>
         </header>
         <main>
-          <div className={styles.user}>
-            <img src={session.user.image} alt={session.user.name} />
-            <p>{session.user.name}</p>
-          </div>
+          {session && (
+            <div className={styles.user}>
+              <img src={session.user.image} alt={session.user.name} />
+              <p>{session.user.name}</p>
+            </div>
+          )}
           <textarea
             placeholder="Faça um comentário"
             onChange={e => setComment(e.target.value)}
