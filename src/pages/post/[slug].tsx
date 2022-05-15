@@ -13,6 +13,7 @@ import { Loading } from '../../components/Loading';
 import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
+import { PostFooter } from '../../components/PostFooter';
 
 export interface PostWithContent {
   uid?: string;
@@ -105,6 +106,7 @@ export default function Post({ post }: PostProps): JSX.Element {
             );
           })}
         </main>
+        <PostFooter />
       </div>
     </>
   );
