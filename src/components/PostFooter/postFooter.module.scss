@@ -38,9 +38,10 @@
   display: flex;
   position: fixed;
   z-index: 1;
-  width: 100%;
 
+  width: 100%;
   max-width: 25rem;
+
   height: 100vh;
   top: 0;
   right: 0;
@@ -49,10 +50,6 @@
   overflow-y: auto;
 
   border-left: 1px solid var(--gray-800);
-
-  @media (max-width: 720px) {
-    max-width: 100%;
-  }
 }
 
 .showComments {
