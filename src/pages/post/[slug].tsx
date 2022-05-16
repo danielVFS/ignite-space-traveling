@@ -15,6 +15,7 @@ import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
 import { PostFooter } from '../../components/PostFooter';
+import { Player } from '../../components/Player';
 
 export interface PostWithContent {
   uid?: string;
@@ -78,11 +79,7 @@ export default function Post({ post }: PostProps): JSX.Element {
         className={styles.banner}
       />
       <div className={styles.postContainer}>
-        <div className={styles.player}>
-          <button type="button" title="Escutar post">
-            <FaPlayCircle />
-          </button>
-        </div>
+        <Player />
         <h2>{formattedPost.data.title}</h2>
         <div className={styles.postInfo}>
           <span>
