@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { FaPlayCircle } from 'react-icons/fa';
+
 import { PLAY_STATUS, speak } from '../../services/speechSynth';
+
+import { AudioSpectrum } from './AudioSpectrum';
 
 import styles from './player.module.scss';
 
@@ -24,8 +27,12 @@ export function Player(): JSX.Element {
 
   return (
     <div className={styles.player}>
-      <button type="button" title="Escutar post" onClick={() => handleClick()}>
-        <FaPlayCircle />
+      <button
+        type="button"
+        title="Tocar/pausar aúdio"
+        onClick={() => handleClick()}
+      >
+        {playStatus === PLAY_STATUS.PLAY ? <FaPlayCircle /> : <AudioSpectrum />}
       </button>
     </div>
   );
