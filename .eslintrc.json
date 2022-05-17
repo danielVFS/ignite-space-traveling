@@ -35,6 +35,9 @@
     "@typescript-eslint/no-explicit-any": "off",
     "react/no-danger": "off",
     "react/jsx-no-bind": "off",
+    "no-shadow": "off",
+    "no-return-assign": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
