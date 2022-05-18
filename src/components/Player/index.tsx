@@ -6,12 +6,13 @@ import { PLAY_STATUS, speak } from '../../services/speechSynth';
 import { AudioSpectrum } from './AudioSpectrum';
 
 import styles from './player.module.scss';
+import { ReadTime } from './ReadTime';
 
 const text =
   'O desafio aqui é me propor a explicar para você o que é código limpo da maneira mais objetiva possível, sem deixar confusões e, no mínimo, alimentar a sua curiosidade em saber mais sobre o assunto.';
 
 export function Player(): JSX.Element {
-  const [textToRead, setTextToRead] = useState(text);
+  const [textToRead] = useState(text);
   const [playStatus, setPlayStatus] = useState(PLAY_STATUS.PLAY);
 
   const handleClick = (): void => {
@@ -27,6 +28,7 @@ export function Player(): JSX.Element {
 
   return (
     <div className={styles.player}>
+      <ReadTime loaded={playStatus === PLAY_STATUS.STOP} />
       <button
         type="button"
         title="Tocar/pausar aúdio"

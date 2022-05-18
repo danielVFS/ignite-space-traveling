@@ -1,0 +1,29 @@
+.read_spectrum_container {
+  position: relative;
+  z-index: 0;
+  height: 50px;
+  width: 100px;
+  background: var(--background2);
+  color: var(--heading);
+  font-weight: bold;
+
+  margin-right: -1.8rem;
+  margin-top: -4.2rem;
+
+  border-radius: 1rem 0 0 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.read_spectrum_container.open {
+  width: 100px;
+  transition: 0.3s all ease-out;
+}
+
+.read_spectrum_container.closed {
+  width: 0;
+  overflow: hidden;
+  transition: 0.3s all ease-in;
+}

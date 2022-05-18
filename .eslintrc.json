@@ -38,6 +38,7 @@
     "no-shadow": "off",
     "no-return-assign": "off",
     "@typescript-eslint/no-shadow": ["error"],
+    "consistent-return": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
