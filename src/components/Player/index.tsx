@@ -8,10 +8,11 @@ import { AudioSpectrum } from './AudioSpectrum';
 import styles from './player.module.scss';
 import { ReadTime } from './ReadTime';
 
-const text =
-  'O desafio aqui é me propor a explicar para você o que é código limpo da maneira mais objetiva possível, sem deixar confusões e, no mínimo, alimentar a sua curiosidade em saber mais sobre o assunto.';
+interface PlayerProps {
+  text: string;
+}
 
-export function Player(): JSX.Element {
+export function Player({ text }: PlayerProps): JSX.Element {
   const [textToRead] = useState(text);
   const [playStatus, setPlayStatus] = useState(PLAY_STATUS.PLAY);
 

@@ -6,16 +6,15 @@ import { useState } from 'react';
 import { FaCalendar, FaUser, FaRegClock } from 'react-icons/fa';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { FaPlayCircle } from 'react-icons/fa';
 
 import Header from '../../components/Header';
 import { Loading } from '../../components/Loading';
+import { PostFooter } from '../../components/PostFooter';
+import { Player } from '../../components/Player';
 
 import { getPrismicClient } from '../../services/prismic';
 
 import styles from './post.module.scss';
-import { PostFooter } from '../../components/PostFooter';
-import { Player } from '../../components/Player';
 
 export interface PostWithContent {
   uid?: string;
@@ -67,6 +66,10 @@ export default function Post({ post }: PostProps): JSX.Element {
   const wordsPerMinute = 200;
   const readTime = Math.ceil(words / wordsPerMinute);
 
+  const textToRead = formattedPost.data.content
+    .map(content => RichText.asText(content.body))
+    .join('');
+
   return (
     <>
       <Head>
@@ -79,7 +82,7 @@ export default function Post({ post }: PostProps): JSX.Element {
         className={styles.banner}
       />
       <div className={styles.postContainer}>
-        <Player />
+        <Player text={textToRead} />
         <h2>{formattedPost.data.title}</h2>
         <div className={styles.postInfo}>
           <span>
